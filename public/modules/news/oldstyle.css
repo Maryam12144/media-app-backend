@@ -1,0 +1,315 @@
+@font-face {
+  font-family: noori;
+  src: url(font/pdms-jauhar-regular.ttf);
+}
+@font-face {
+  font-family: jauhar;
+  src: url(font/pdms-jauhar-regular.ttf);
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+}
+body > video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: calc(100% - 100px);
+  width: auto;
+  height: auto;
+  /* z-index: -100; */
+  transform: translateX(-50%) translateY(-50%);
+}
+.logo-wrap {
+  position: absolute;
+  top: 20px;
+  right: 70px;
+}
+.logo {
+  max-width: 250px;
+  z-index: 999;
+}
+.logo-wrap span {
+  color: #fff;
+  font-size: 18px;
+  text-align: end;
+  margin-right: 22px;
+  margin-top: -56px;
+  font-family: "Arimo", sans-serif;
+  display: flex;
+  justify-content: end;
+}
+.ticker-wrap {
+  width: 100%;
+  position: relative;
+  transition: 1s;
+  bottom: 50px;
+}
+.breakingTicker {
+  position: absolute;
+  transition: 1s;
+  width: 100%;
+}
+.breakingTicker video,
+.breakingTicker img {
+  width: 100%;
+}
+.volumeBtn{
+  position: absolute;
+  z-index: 999;
+  right: 23px;
+  bottom: 250px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 3px;
+}
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.ticker-wrap .ticker {
+  height: 100px;
+  width: 100%;
+}
+.ticker-wrap .ticker-wraps {
+  font-family: jauhar;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: white;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 2s;
+}
+.block {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  margin: 0 10px;
+  border-radius: 50%;
+}
+.breakingTicker {
+  display: none;
+  position: absolute;
+  bottom: 0;
+}
+.onlyTicker.animatedTick {
+  display: none;
+}
+.breakingTicker.animatedTick {
+  display: block;
+}
+
+.colon {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+.breaking {
+  position: absolute;
+  left: 10px;
+  bottom: 155px;
+}
+
+.breaking img,
+.followUs img {
+  width: 350px;
+}
+.container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+@-webkit-keyframes ticker {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+.ticker-wraps {
+  position: absolute;
+  bottom: 0;
+  width: 1000%;
+  overflow: hidden;
+  padding-left: 50%;
+  box-sizing: content-box;
+}
+.ticker-wraps .ticker {
+  display: inline-block;
+  white-space: nowrap;
+  padding-right: 270%;
+  box-sizing: content-box;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: ticker;
+  animation-name: ticker;
+  -webkit-animation-duration: 20s;
+  animation-duration: 20s;
+  align-items: center;
+  justify-content: center;
+}
+.ticker-wraps .ticker__item {
+  display: inline-block;
+  padding: 0 2rem;
+  font-size: 50px;
+  color: white;
+  font-family: jauhar;
+  margin-top: 10px;
+}
+.main {
+  font-size: 120%;
+  color: red;
+}
+.border {
+  border: 1px solid black;
+}
+.breaking .breaking2 {
+  display: none;
+}
+.breaking.breaking1 .breakingImg {
+  display: none;
+}
+.breaking.breaking1 .breaking2 {
+  display: block !important;
+}
+.followUs.dBlock {
+  display: block;
+}
+.followUs .follow {
+  font-size: 18px;
+  font-family: monospace;
+}
+.followUs {
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+.followUs img,
+.followUs video {
+  width: 100%;
+}
+.followUs .fa {
+  padding: 4px;
+  font-size: 15px;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  text-decoration: none;
+  margin: 4px 2px;
+  border-radius: 50%;
+}
+.followUs .fa-facebook {
+  background: #3b5998;
+  color: white;
+}
+
+.followUs .fa-twitter {
+  background: #55acee;
+  color: white;
+}
+
+.followUs .fa-instagram {
+  background: #125688;
+  color: white;
+}
+.streaming {
+  background: blue;
+}
+.ticker-red {
+  display: block;
+}
+.tickerBG.ticker-red {
+  display: none;
+}
+.ticker-blue {
+  display: none !important;
+}
+.tickerBG.ticker-blue {
+  display: block !important;
+}
+.animatedTick img.ticker {
+  position: absolute;
+  z-index: 99999;
+  bottom: 0;
+}
+/* .animatedTick img.ticker {
+  height: 50px;
+} */
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 100px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+}
+
+.animatedFadeInUp {
+  opacity: 0;
+}
+
+.fadeInUp {
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+}
+@media screen and (min-width: 1400px) {
+  .ticker-wraps .ticker {
+    padding-right: 250%;
+  }
+  .ticker-wrap,
+  .breaking video {
+    bottom: 100px;
+  }
+  .ticker-wrap .ticker {
+    height: 130px;
+  }
+  .ticker-wraps .ticker__item {
+    font-size: 64px;
+  }
+  .breaking {
+    bottom: 235px;
+  }
+  .followUs {
+    bottom: 15px;
+  }
+}

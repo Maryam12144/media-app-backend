@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Kannact Media App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modules/news/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+
+
+<div class="main-wrapper">
+
+</div>
+    <video src="modules/news/video/8.mp4" webkitAllowFullScreen mozallowfullscreen allowFullScreen onclick="playVid()" autoplay="autoplay" id="videos" ></video>
+    <div class="logo-wrap">
+        <img src="modules/news/images/main-logo.png" class="logo" alt="">
+        <span id="time"></span>
+    </div>
+    <div class="breaking "> 
+        <img src="modules/news/images/breaking.png"  class="breakingImg animated animatedFadeInUp tick tickerBG ticker-red fadeInUp"  alt="">
+        <img src="modules/news/images/streaming.png"  class="breaking2 animated animatedFadeInUp  fadeInUp tick tickerBG ticker-blue"  alt="">
+        <!-- <img src="modules/news/images/kmn.png"  style="display: none;" alt=""> -->
+        
+    </div>
+    
+    <div class="footer">
+        
+        <div class="ticker-wrap" id="ticker">
+            <div class="breakingTicker  animatedBreaking">
+                <video src="modules/news/video/breakingNewsTicker.mp4" controls autoplay loop class=""  alt="" > </video>
+            </div>
+            <div class="onlyTicker animatedBreaking">
+                <img src="modules/news/images/tickers.png" class="ticker tick tickerBG ticker-red breakingTick" alt="">
+            <img src="modules/news/images/ticker-blue.png" class=" ticker tick tickerBG ticker-blue breakingTick" alt="">
+            <!-- <video src="video/breakingNewsTicker.mp4" controls autoplay loop class=" ticker tick tickerBG ticker-blue breakingTick" alt="" > </video> -->
+            
+            <div class="ticker-wraps">
+              
+            
+                <div class="ticker tick tickerBG ticker-blue" id="dynamicTickerBlue">
+                </div> 
+                <div class="ticker tick tickerBG ticker-red" id="dynamicTickerRed">
+                </div>              
+               
+            </div>
+           
+            </div>
+        </div>
+        <!-- <div class="followUs animated animatedFadeInUp fadeInUp" id="footer" onload="footer()">
+            <div class="follow"><i class="fa fa-facebook"></i>/Kanact <i class="fa fa-twitter"></i> /Kanact <i class="fa fa-instagram"></i> /Kanact</div>
+        </div> -->
+        <div class="followUs" id="footer" >
+            <!-- <img src="video/FollowUsTicker1.gif" /> -->
+            <video src="modules/news/video/FollowUsTicker.mp4" onclick="playVid()" controls autoplay loop  ></video>
+
+        </div>
+        
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="modules/news/script.js"></script>
+
+    <script>
+
+        var news = {!! json_encode($news, JSON_HEX_TAG) !!};
+        let boolLoad = false
+        var videoSource = new Array();
+        function getLatestNews() {
+           //doStuff
+        //   var name1 = this.value;
+         $.ajax ({
+             url: "http://127.0.0.1:8000/news/ajaxindex",
+             type:'GET',
+            
+             success: function (response) {
+                 if(response.length > 0){
+
+                     news = JSON.parse(response);
+                 }
+                 else 
+                 {
+                    news = [];
+                 }
+                if( boolLoad == false){
+                    latestNewsHandler()
+                }
+             }
+            })
+        
+        }
+
+        let latestNewsHandler = () => {
+             videoSource[0] = "modules/news/video/8.mp4";
+            document.getElementById('dynamicTickerRed').innerHTML = '';
+            document.getElementById('dynamicTickerBlue').innerHTML = ''
+            jQuery.each(news, function(index, item) {
+                console.log(news,'k',boolLoad);
+
+                videoSource[index+1] = item.video_path+'/'+item.video_name; 
+                if(item.ticker_text != null) {
+                    if(item.video_type_id == 1){
+                        var ticker = document.getElementById('dynamicTickerRed').innerHTML += '<div class="ticker__item"><span class="block"></span>"'+ item.ticker_text.replace(/["']/g, "")+'"</div>'
+                    }
+                    else{
+                        var ticker = document.getElementById('dynamicTickerBlue').innerHTML += '<div class="ticker__item"><span class="block"></span>"'+ item.ticker_text.replace(/["']/g, "")+'"</div>'
+                    }
+                }
+                console.log(index,'ooo', news.length-1)
+                if(news.length-1 == index){
+                    boolLoad = false
+                }
+                else{
+                    boolLoad = true
+                }
+            });
+
+        }
+
+        setInterval(getLatestNews, 10000);
+
+       
+      // videoSource[1] = "modules/news/video/2.mp4";
+        // jQuery.each(news, function(index, item) {
+        //     videoSource[index+1] = item.video_path+'/'+item.video_name; 
+        //     if(item.ticker_text != null) {
+        //         if(item.video_type_id == 1){
+        //             var ticker = document.getElementById('dynamicTickerRed').innerHTML += '<div class="ticker__item"><span class="block"></span>"'+ item.ticker_text.replace(/["']/g, "")+'"</div>'
+        //         }
+        //         else{
+        //             var ticker = document.getElementById('dynamicTickerBlue').innerHTML += '<div class="ticker__item"><span class="block"></span>"'+ item.ticker_text.replace(/["']/g, "")+'"</div>'
+        //         }
+        //     }
+        // });
+
+        let key = 0; // global
+        const videoCount = videoSource.length;
+        const element = document.getElementById("videos");
+        function playVideo(videoNum) {
+            if(videoSource[videoNum] != undefined){
+                element.setAttribute("src", videoSource[videoNum]);
+                element.setAttribute("type", "video/mp4");
+                element.autoplay = true;
+                element.load();
+                element.play();
+            }
+        }
+        document
+        .getElementById("videos")
+        .addEventListener("ended", myFunctionHandle, false);
+        function playVid() {
+        if (element.paused) element.play();
+        else element.pause();
+        }
+        document.getElementById("element");
+        document.onkeypress = function (e) {
+        if ((e || window.event).keyCode === 32) {
+            video.paused ? video.play() : video.pause();
+        }
+        };
+
+       
+        function myFunctionHandle() {
+        key++;
+        if (key == videoCount) {
+            key = 0;
+            playVideo(key);
+        } else {
+            playVideo(key);
+        }
+        }
+        AOS.init();
+        
+        
+    </script>
+
+    
+</body>
+</html>

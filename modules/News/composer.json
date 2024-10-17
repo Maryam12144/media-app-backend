@@ -1,0 +1,23 @@
+{
+    "name": "Kanact/news",
+    "description": "",
+    "authors": [
+        {
+            "name": "Usman Ali",
+            "email": "muhammad_usman@usa.edu.pk"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "modules\\News\\": ""
+        }
+    }
+}

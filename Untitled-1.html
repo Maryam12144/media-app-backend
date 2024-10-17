@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Kannact Media App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modules/news/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+
+
+<div class="main-wrapper">
+
+</div>
+    <video src="modules/news/video/2.mp4" webkitAllowFullScreen mozallowfullscreen allowFullScreen onclick="playVid()" class="videoVolumeHandler"  autoplay="autoplay" id="videos" muted preload="none"></video>
+    <div class="logo-wrap">
+        <img src="modules/news/images/main-logo.png" class="logo" alt="">
+        <span id="time"></span>
+    </div>
+    <div class="breaking "> 
+        <img src="modules/news/images/breaking.png"  class="breakingImg animated animatedFadeInUp tick tickerBG ticker-red fadeInUp"  alt="">
+        <img src="modules/news/images/streaming.png"  class="breaking2 animated animatedFadeInUp  fadeInUp tick tickerBG ticker-blue"  alt="">
+        <!-- <img src="modules/news/images/kmn.png"  style="display: none;" alt=""> -->
+        
+    </div>
+    
+        <div class="footer">
+        
+            <div class="ticker-wrap" id="ticker">
+                <div class="breakingTicker  animatedBreaking" id="breakingVideo">
+                    <!-- <video  src="modules/news/video/breakingNewsTicker.mp4" onclick="playVid()"  autoplay loop  muted > </video> -->
+                    <img src="modules/news/images/breakingNewsTicker.gif" alt="">
+                </div>
+                <div class="onlyTicker animatedBreaking">
+                    <img src="modules/news/images/tickers.png" class="ticker tick tickerBG ticker-red breakingTick" alt="">
+                    <img src="modules/news/images/ticker-blue.png" class=" ticker tick tickerBG ticker-blue breakingTick" alt="">
+                <!-- <video src="video/breakingNewsTicker.mp4" controls autoplay loop class=" ticker tick tickerBG ticker-blue breakingTick" alt="" > </video> -->
+                
+                <div class="ticker-wraps">
+                    <div class="ticker tick tickerBG ticker-blue" id="dynamicTickerBlue">
+                    </div> 
+                    <div class="ticker tick tickerBG ticker-red" id="dynamicTickerRed">
+                    </div>              
+                
+                </div>
+            
+            </div>
+        </div>
+        <!-- <div class="followUs animated animatedFadeInUp fadeInUp" id="footer" onload="footer()">
+            <div class="follow"><i class="fa fa-facebook"></i>/Kanact <i class="fa fa-twitter"></i> /Kanact <i class="fa fa-instagram"></i> /Kanact</div>
+        </div> -->
+        <button onclick="volumeHandler()" class="volumeBtn">Mute/Unmute</button>
+        <div class="followUs" id="footer" >
+            <img src="modules/news/images/FollowUsTicker.gif" />
+            <!-- <video src="modules/news/video/FollowUsTicker.mp4" onclick="playVid()"  autoplay loop muted ></video> -->
+
+        </div>
+        
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="modules/news/script.js"></script>
+
+    <script>
+         document.getElementById('videos').currentTime = 20;
+
+        var news=[];
+        let boolLoad = false
+        
+        function getLatestNews() {
+         $.ajax ({
+             url: "http://10.100.9.118:8002/news/ajaxindex",
+             type:'GET',
+            
+             success: function (response) {
+                 let videoCount = 0
+                var videoSource = [];
+                
+               
+                news = JSON.parse(response);
+                videoSource[0] = "modules/news/video/8.mp4";
+                document.getElementById('dynamicTickerRed').innerHTML = ''
+                document.getElementById('dynamicTickerBlue').innerHTML = ''
+            // videoSource[1] = "modules/news/video/6.mp4";
+                jQuery.each(news, function(index, item) {
+                    videoSource[index+1] = item.video_path+'/'+item.video_name; 
+                    if(item.ticker_text != null) {
+                        if(item.video_type_id == 1){
+                            var ticker = document.getElementById('dynamicTickerRed').innerHTML += '<div class="ticker__item"><span class="block"></span>"'+ item.ticker_text.replace(/["']/g, "")+'"</div>'
+                        }
+                        else{
+                            var ticker = document.getElementById('dynamicTickerBlue').innerHTML += '<div class="ticker__item"><span class="block"></span>"'+ item.ticker_text.replace(/["']/g, "")+'"</div>'
+                        }
+                    }
+                });
+                var starttime = 10;  // start at 7 seconds
+                console.log('again')
+                let videoUrl = document.getElementById("videos");
+                videoUrl.currentTime = starttime;
+                document.getElementById("videos").load();
+                let videoLoop = () => {
+                    var endtime = 20;    // stop at 17 seconds
+                    
+                    videoUrl.onended = function() {
+                      
+
+                        if(videoCount != videoSource.length){
+                            console.log(videoSource,"The audio has ended", videoSource[videoCount],'fdf',videoCount,'fgfg',videoSource.length-1);
+                            
+                            videoUrl.setAttribute("src", videoSource[videoCount]);
+                            videoUrl.setAttribute("type", "video/mp4");
+                            videoUrl.currentTime = starttime;
+                            videoUrl.autoplay = true;
+                            videoUrl.load();
+                            videoCount++;                        
+                            videoUrl.play();
+                           
+                        }
+                        else {
+                            getLatestNews();
+                        }
+                    };
+                }
+                
+                videoLoop();
+
+                
+                // document
+                //     .getElementById("videos")
+                //     .addEventListener("ended", getLatestNews, false);
+            }
+        })
+        
+        }
+        const element = document.getElementById("videos");
+       
+        function playVid() {
+            
+          
+        if (element.paused) element.play();
+        else element.pause();
+        }
+        
+        let volumeHandler = () => {
+            
+            let volume = document.querySelector('video');
+           if( volume.muted == false) volume.muted = true;
+           else if(volume.muted == true)  volume.muted = false;
+        }
+        $( document ).ready(function() {
+            // alert( document.querySelector('video').play)
+            // document.querySelector('video').play()
+            getLatestNews();
+        });
+       
+       
+
+       
+        // AOS.init();
+        
+        
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,38 @@
+  .followMarquee {
+    color: #7d0000;
+  }
+
+  .logo-wrap {
+      display: flex;
+      align-items: flex-end;
+      left: 5vw;
+  }
+
+  .logo {
+    width: 35vh;
+    z-index: 999;
+  }
+
+  .logo-wrap span {
+    color: #131e36;
+    background-color: #bac7dc;
+  }
+
+  @media screen and (max-width: 767px) and (min-height: 500px) {
+    
+    .logo-wrap{
+      /* bottom: 4.8vh; */
+      right: 5vw;
+      bottom: 4.5vh !important;
+    }
+    .logo {
+      width: 12vh;
+    }
+    .breakingTicker video, .breakingTicker img{
+      height: 5vh !important;
+    }
+    
+  } 
+
+  
+  

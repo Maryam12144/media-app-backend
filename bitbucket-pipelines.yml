@@ -1,0 +1,11 @@
+pipelines:
+  default:
+     - step:
+         name: media-app-backend
+         deployment: production
+         script:
+           - pipe: atlassian/ssh-run:0.4.0
+             variables:
+               SSH_USER: 'root'
+               SERVER: '104.236.236.23'
+               COMMAND: '/var/www/html/Dev-projects/Media/mediabacktend.sh'

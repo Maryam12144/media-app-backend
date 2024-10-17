@@ -1,0 +1,35 @@
+
+.logo {
+  width: 18vh;
+  z-index: 999;
+}
+
+.logo-wrap {
+    left: 5vw;
+}
+
+.logo-wrap span {
+  color: #fff;
+  background-color: #2B2D30;
+}
+
+.breakingTicker video,
+.breakingTicker img {
+  bottom: 0;
+position: absolute;
+}
+
+@media screen and (max-width: 767px) and (min-height: 500px) {
+  
+  .logo-wrap{
+    left: 5vw;
+    bottom: 4.5vh !important;
+  }
+  .logo {
+    width: 6vh;
+  }
+  .breakingTicker video, .breakingTicker img{
+    height: 6vh !important;
+  }
+  
+} 

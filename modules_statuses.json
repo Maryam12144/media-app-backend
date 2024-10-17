@@ -1,0 +1,7 @@
+{
+    "Core": true,
+    "Admin": true,
+    "User": true,
+    "Dashboard": true,
+    "News": true
+}
