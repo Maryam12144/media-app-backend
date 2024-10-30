@@ -13,6 +13,7 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      * @return Renderable
+     testing change being done
      */
     public function index()
     {
