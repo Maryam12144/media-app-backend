@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: media-app-backend
+    env: php
+    plan: free
+    buildCommand: "composer install && php artisan key:generate"
+    startCommand: "php artisan serve --host 0.0.0.0 --port 10000"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: # leave blank; Render will run key:generate
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        value: media-app-db
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: backend_db
+      - key: DB_USERNAME
+        value: backend_user
+      - key: DB_PASSWORD
+        value: Maryam@1214421051
+
+databases:
+  - name: media-app-db
+    databaseName: backend_db
+    user: backend_user
+    plan: free
