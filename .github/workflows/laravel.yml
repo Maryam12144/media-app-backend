@@ -1,0 +1,67 @@
+name: Laravel CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: Maryam@1214421051
+          MYSQL_DATABASE: backend_db
+          MYSQL_USER: backend_user
+          MYSQL_PASSWORD: Maryam@1214421051
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -u backend_user -pMaryam@1214421051"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🧰 Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, pdo, pdo_mysql
+          coverage: none
+
+      - name: 🧱 Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: 🛠 Copy .env
+        run: cp .env.example .env
+
+      - name: 🧪 Generate application key
+        run: php artisan key:generate
+
+      - name: 🧪 Run migrations
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: backend_db
+          DB_USERNAME: backend_user
+          DB_PASSWORD: Maryam@1214421051
+        run: php artisan migrate
+
+      - name: 🧪 Run tests
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: backend_db
+          DB_USERNAME: backend_user
+          DB_PASSWORD: Maryam@1214421051
+        run: php artisan test
