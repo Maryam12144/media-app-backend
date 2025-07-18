@@ -5,18 +5,12 @@ use Illuminate\Support\Facades\Route;
 use Modules\News\Http\Controllers\NewsController;
 use Modules\News\Http\Controllers\ChatRoomController;
 use Modules\News\Http\Controllers\TickerController;
-
 use Modules\News\Http\Controllers\ChannelController;
 
 /*
 |--------------------------------------------------------------------------
 | News
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 
 Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/news'], function ($router) {
@@ -27,7 +21,7 @@ Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/news'
      ******************************************
     */
     Route::get('', [NewsController::class, 'index'])
-        ->name('api.show.news');
+        ->name('api.admin.news.index');
         
     /*
      ******************************************
@@ -35,7 +29,7 @@ Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/news'
      ******************************************
     */
     Route::post('', [NewsController::class, 'store'])
-        ->name('api.store.news');
+        ->name('api.admin.news.store');
     
     /*
      ******************************************
@@ -43,7 +37,7 @@ Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/news'
      ******************************************
     */
     Route::get('{news}', [NewsController::class, 'show'])
-        ->name('api.show.news');
+        ->name('api.admin.news.show');
                 
     /*
      ******************************************
@@ -51,7 +45,7 @@ Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/news'
      ******************************************
     */
     Route::post('{news}', [NewsController::class, 'update'])
-        ->name('api.update.news');
+        ->name('api.admin.news.update');
         
     /*
      ******************************************
@@ -59,17 +53,15 @@ Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/news'
      ******************************************
     */
     Route::delete('{news}', [NewsController::class, 'destroy'])
-        ->name('api.delete.news');
+        ->name('api.admin.news.destroy');
 
-         /*
+    /*
      ******************************************
      *           Upload News Video
      ******************************************
     */
     Route::post('/upload/video', [NewsController::class, 'uploadVideo'])
-        ->name('api.store.vimeo.video');  
-
-
+        ->name('api.admin.news.upload-video');
 });
 
 Route::group(['middleware' => ['api'], 'prefix' => '/news'], function ($router) {
@@ -84,66 +76,68 @@ Route::group(['middleware' => ['api'], 'prefix' => '/news'], function ($router) 
     Route::get('/ajax', [ChannelController::class, 'ajaxIndex'])
         ->name('web.show.ajax.channel');  
     
-                   /*
+    /*
      ******************************************
      *           Total Notification
      ******************************************
     */
-    
     Route::get('/notification', [ChatRoomController::class, 'getTotalNotification'])
-    ->name('api.chat-room.notification');
+        ->name('api.chat-room.notification.total');
         
-                   /*
+    /*
      ******************************************
      *           Update Total Notification
      ******************************************
     */
-    
     Route::get('/notification/{id}', [ChatRoomController::class, 'updateTotalNotification'])
-    ->name('api.chat-room.notification');
-      /*
+        ->name('api.chat-room.notification.update');
+    
+    /*
      ******************************************
-     *           Get Modify  Videos
+     *           Get Modify Videos
      ******************************************
     */
     Route::get('/modify-videos', [NewsController::class, 'getPosterModifyVideos'])
-    ->name('api.show.modify.videos');  
-       /*
+        ->name('api.show.modify.videos');  
+    
+    /*
      ******************************************
      *           Get Modify Video Detail
      ******************************************
     */
     Route::get('/modify-video/{id}', [NewsController::class, 'getReporterModifyVideo'])
-        ->name('api.show.pending.videos'); 
-     /*
+        ->name('api.show.modify.video'); 
+    
+    /*
      ******************************************
      *           Get Pending Videos
      ******************************************
     */
-    
     Route::get('/pending-videos', [NewsController::class, 'getReporterPendingVideos'])
         ->name('api.show.pending.videos');   
-      /*
+    
+    /*
      ******************************************
      *           Get Pending Video
      ******************************************
     */
     Route::get('/pending-video/{id}', [NewsController::class, 'getReporterSinglePendingVideo'])
-        ->name('api.show.pending.videos');  
-      /*
+        ->name('api.show.pending.video');  
+    
+    /*
      ******************************************
-     *           Get Pending Video
+     *           Update Total Views
      ******************************************
     */
     Route::get('/count-views/{id}', [NewsController::class, 'updateTotalViews'])
         ->name('api.update.total.views');    
-
 });
 
 Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/ticker'], function ($router) {
 
     Route::get('/pending-list', [TickerController::class, 'pendingTicker'])
         ->name('api.ticker.pending-list');
+    
     /*
     ******************************************
     *           Evaluate Ticker
@@ -151,5 +145,5 @@ Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/ticke
     */
     Route::get('/evaluate-list', [TickerController::class, 'evaluateTicker'])
         ->name('api.ticker.evaluate-list');
- 
 });
+

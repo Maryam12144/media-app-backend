@@ -3,39 +3,29 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Modules\News\Http\Controllers\ChatBoxController;
+
 /*
 |--------------------------------------------------------------------------
-| Genre
+| Chat Box Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| These routes are for the ChatBox module. They are loaded with the "api"
+| middleware and "admin/chat-box" prefix.
 |
 */
 
-Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/chat-box'], function ($router) {
-
-    /*
-     ******************************************
-     *           Show chat Box
-     ******************************************
-    */
+Route::group(['middleware' => ['api', 'auth', 'admin'], 'prefix' => 'admin/chat-box'], function () {
+    
+    // Show chat box list
     Route::get('', [ChatBoxController::class, 'index'])
-        ->name('api.show.chat-box');
-        
-    /*
-     ******************************************
-     *           Store Box
-     ******************************************
-    */
+        ->name('api.show.chat-box.list');
+    
+    // Store new chat box
     Route::post('', [ChatBoxController::class, 'store'])
         ->name('api.store.chat-box');
-     /*
-     ******************************************
-     *           Show chat Box
-     ******************************************
-    */
+
+    // Show single chat box
     Route::get('{id}', [ChatBoxController::class, 'show'])
-        ->name('api.show.chat-box');
+        ->name('api.show.chat-box.single');
+
 });
